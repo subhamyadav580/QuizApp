@@ -1,6 +1,7 @@
+from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from quizApp.models import Subject, User
+from quizApp.models import Quiz, Subject, User
 
 class UserSerializers(serializers.ModelSerializer):
     password2 = serializers.CharField(
@@ -27,15 +28,23 @@ class SubjectSerializers(serializers.ModelSerializer):
 
         fields = ['name']
 
+
     def save(self):
-        print(self.validated_data)
+        request = self.context.get('request', None)
         subject = Subject(name=self.validated_data['name'])
-        account = self.validated_data['User']
+        account = request.user
         if account.is_teacher:
             subject.save()
             return subject
         else:
             return serializers.ValidationError({'User Error' : 'Not allowded to add subjects'})
-        
 
+class QuizSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Quiz
+        fields = ['owner', 'name', 'subject']
 
+    def save(self, **kwargs):
+        print(self.request.user)
+        quiz = Quiz(owner = self.request.user, name = self.validated_data['name'], subject = self.validated_data['subject'])
+        return quiz
