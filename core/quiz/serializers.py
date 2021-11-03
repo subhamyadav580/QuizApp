@@ -50,3 +50,12 @@ class QuestionSerializer(serializers.ModelSerializer):
             'answer',
             'quiz',
         ]
+
+
+class CreateQuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quizzes
+        fields = [
+            'title',
+            'category'
+        ]
