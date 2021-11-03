@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from quiz.models import Answer, Question, Quizzes
+from quiz.models import Answer, Category, Question, Quizzes
 
 class QuizSerializer(serializers.ModelSerializer):
 
@@ -58,4 +58,11 @@ class CreateQuizSerializer(serializers.ModelSerializer):
         fields = [
             'title',
             'category'
+        ]
+
+class CreateCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = [
+            'name'
         ]
