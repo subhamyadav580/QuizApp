@@ -85,6 +85,18 @@ DATABASES = {
 }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'quizdatabase',
+#         'USER': 'quizadmin',
+#         'PASSWORD': 'Django@12345',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',

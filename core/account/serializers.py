@@ -19,17 +19,20 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
     
-    def save(self):
-        account = Account(
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+        return attrs
+
+    def create(self, validated_data):
+        account = Account.objects.create(
             username = self.validated_data['username'],
             password=self.validated_data['password'],
             is_teacher=self.validated_data['is_teacher'],
             is_student=self.validated_data['is_student'])
-        password = self.validated_data['password']
-        password2 = self.validated_data['password2']
-
-        if password != password2:
-            raise serializers.ValidationError({'password' : 'Password not matched'})
-        account.set_password(password)
+        
+        account.set_password(validated_data['password'])
         account.save()
+
         return account
